@@ -16,7 +16,7 @@ function isLayerExist(layerElement, targetElement) {
   const nodeList = Array.from(
     layerElement.ownerDocument.querySelectorAll("[data-dismissable-layer]")
   );
-  if (targetLayer && mainLayer === targetLayer || nodeList.indexOf(mainLayer) < nodeList.indexOf(targetLayer)) {
+  if (targetLayer && (mainLayer === targetLayer || nodeList.indexOf(mainLayer) < nodeList.indexOf(targetLayer))) {
     return true;
   } else {
     return false;
@@ -32,7 +32,7 @@ function usePointerDownOutside(onPointerDownOutside, element) {
       return;
     const handlePointerDown = async (event) => {
       const target = event.target;
-      if (!element?.value)
+      if (!element?.value || !target)
         return;
       if (isLayerExist(element.value, target)) {
         isPointerInsideDOMTree.value = false;
@@ -85,7 +85,8 @@ function useFocusOutside(onFocusOutside, element) {
         return;
       await vue.nextTick();
       await vue.nextTick();
-      if (!element.value || isLayerExist(element.value, event.target))
+      const target = event.target;
+      if (!element.value || !target || isLayerExist(element.value, target))
         return;
       if (event.target && !isFocusInsideDOMTree.value) {
         const eventDetail = { originalEvent: event };

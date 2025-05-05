@@ -25,9 +25,26 @@ This project is an **academic project** developed to manage Mikrotik routers usi
 - **DNS Server Management**:
   - Enable, disable, and configure the DNS server.
 
-## Project Setup
+## Prerequisites
 
-Follow these steps to set up the project:
+This project requires a Python backend to function properly. Make sure to set up and run the backend before using this application. The backend handles communication with Mikrotik devices and provides the necessary APIs for the Vue.js frontend.
+
+### Backend Setup
+
+1. Clone the Python backend repository:
+   ```sh
+   git clone https://github.com/iuricarras/lti-mikrotik-python.git
+   cd lti-mikrotik-python
+   ```
+
+2. Follow the instructions in the backend's `README.md` file to set it up and start the server.
+
+3. Ensure the backend is running and accessible before starting the Vue.js frontend.
+
+
+## Project Setup (Frontend)
+
+Follow these steps to set up the Vue.js frontend:
 
 ### Prerequisites
 
