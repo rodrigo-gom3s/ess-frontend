@@ -20,7 +20,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import { RouterLink } from "vue-router";
-
+import { useAuthStore } from "@/stores/auth";
 
 // Menu items.
 const items = [
@@ -41,6 +41,7 @@ const items = [
   },
 ];
 
+let authStore = useAuthStore()
 </script>
 
 <template>
@@ -62,5 +63,16 @@ const items = [
         </SidebarGroupContent>
       </SidebarGroup>
     </SidebarContent>
+        <div class="mt-auto p-4 border-t">
+      <div class="flex items-center justify-between space-x-4">
+        <div>
+          <p class="text-sm text-gray-500">Cluster IP: <span class="font-semibold">{{ authStore.cluster.ip }}</span></p>
+          <p class="text-sm text-gray-500">Username: <span class="font-semibold">{{ authStore.user.username }}</span></p>
+        </div>
+        <Button variant="outline" class="text-s px-2 py-1" @click="authStore.logout" alt-title="Logout">
+          <LogOut class="w-4 h-4" />
+        </Button>
+      </div>
+    </div>
   </Sidebar>
 </template>
