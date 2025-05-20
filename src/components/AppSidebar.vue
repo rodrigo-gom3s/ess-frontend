@@ -67,7 +67,7 @@ let authStore = useAuthStore()
       <div class="flex items-center justify-between space-x-4">
         <div>
           <p class="text-sm text-gray-500">Cluster IP: <span class="font-semibold">{{ authStore.cluster.ip }}</span></p>
-          <p class="text-sm text-gray-500">Username: <span class="font-semibold">{{ authStore.user.username }}</span></p>
+          <p class="text-sm text-gray-500">Username: <span class="font-semibold">{{ authStore.user }}</span></p>
         </div>
         <Button variant="outline" class="text-s px-2 py-1" @click="authStore.logout" alt-title="Logout">
           <LogOut class="w-4 h-4" />

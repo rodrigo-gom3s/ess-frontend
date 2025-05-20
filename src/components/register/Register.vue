@@ -24,8 +24,8 @@ const credentials = ref({
 })
 
 
-const login = () => {
-  authStore.login(credentials.value)
+const register = () => {
+  authStore.register(credentials.value)
 }
 
 </script>
@@ -34,8 +34,8 @@ const login = () => {
   <div class="flex items-center justify-center space-x-4 p-8">
     <Card class="w-[450px] p-4 px-8">
       <CardHeader>
-        <CardTitle>Login</CardTitle>
-        <CardDescription>Enter your Hypervisor Information</CardDescription>
+        <CardTitle>Register</CardTitle>
+        <CardDescription>Enter your information to register</CardDescription>
       </CardHeader>
       <CardContent>
         <form>
@@ -54,17 +54,10 @@ const login = () => {
           </div>
         </form>
       </CardContent>
-      <CardFooter class="px-6 pb-6 flex justify-between">
-        <div class="flex justify-start">
-          <Button>
-            <RouterLink :to="{name:'register'}">Register</RouterLink>
+      <CardFooter class="px-6 pb-6 flex justify-end">
+          <Button @click="register">
+            Create Account
           </Button>
-        </div>
-        <div class="flex justify-end">
-          <Button @click="login">
-            Login
-          </Button>
-        </div>
       </CardFooter>
     </Card>
   </div>

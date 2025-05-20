@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import Login from '@/components/login/Login.vue'
 import SelectCluster from '@/components/login/SelectCluster.vue'
 import { useAuthStore } from '@/stores/auth'
+import Register from '@/components/register/Register.vue'
 
 
 let firstLogin = true
@@ -25,12 +26,26 @@ const router = createRouter({
       path: '/cluster',
       name: 'cluster',
       component: SelectCluster,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register,
     }
   ],
 })
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
+  if (firstLogin) {
+    firstLogin = false
+    authStore.restoreLogin()
+
+  }
+
+  if (to.name === 'register'){
+    next()
+  }
   if (to.name !== 'login' && !authStore.isAuthenticated()) {
     next('/login');
   } else {

@@ -7,9 +7,12 @@ const props = defineProps({
 })
 const emit = defineEmits(['select'])
 
+
 const handleClick = () => {
   emit('select', props.cluster)
 }
+
+console.log(props.cluster)
 
 </script>
 
