@@ -4,6 +4,8 @@ import Login from '@/components/login/Login.vue'
 import SelectCluster from '@/components/login/SelectCluster.vue'
 import { useAuthStore } from '@/stores/auth'
 import Register from '@/components/register/Register.vue'
+import Dashboard from '@/components/dashboard/Dashboard.vue'
+import Cluster from '@/components/cluster/Cluster.vue'
 
 
 let firstLogin = true
@@ -18,6 +20,11 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard,
+    },
+    {
       path: '/login',
       name: 'login',
       component: Login,
@@ -26,6 +33,11 @@ const router = createRouter({
       path: '/cluster',
       name: 'cluster',
       component: SelectCluster,
+    },
+    {
+      path: '/ha-cluster',
+      name: 'ha-cluster',
+      component: Cluster,
     },
     {
       path: '/register',

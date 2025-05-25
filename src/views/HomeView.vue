@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import { HomeIcon, SettingsIcon } from 'lucide-vue-next';
 import { useSocketStore } from '@/stores/socket';
     const socketStore = useSocketStore();
-    socketStore.getClusterResources();
     const selected = ref('Home');
 
   

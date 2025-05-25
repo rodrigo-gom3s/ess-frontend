@@ -13,6 +13,7 @@ import { useAuthStore } from '@/stores/auth'
 
 const alertDialog = useTemplateRef('alert-dialog');
 provide('alertDialog', alertDialog);
+const { toast } = useToast()
 const storeAuth = useAuthStore()
 
 const openToast = (title_received, description_received, variant_recieved) => {
@@ -31,7 +32,7 @@ provide('openToast', openToast);
   <div class="h-screen overflow-hidden">
       <GlobalAlertDialog ref="alert-dialog"></GlobalAlertDialog>
       <div :class="{'mx-auto md:ml-64': storeAuth.cluster.ip}">
-        <main>
+        <main class="overflow-y-auto h-screen">
             <RouterView />
           </main>
       </div>

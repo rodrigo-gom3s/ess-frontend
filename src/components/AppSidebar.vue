@@ -1,5 +1,5 @@
 <script setup>
-import { Binary, Calendar, ChevronDown, EthernetPort, Home, Inbox, Search, Settings, ShieldUser, Wifi, Workflow, LogOut, ArrowLeftRightIcon, ServerCrash, Repeat2 } from "lucide-vue-next"
+import { Boxes, ChevronDown, LogOut, ArrowLeftRightIcon, ServerCrash, Repeat2, Monitor, AppWindow } from "lucide-vue-next"
 import {
   Sidebar,
   SidebarContent,
@@ -19,14 +19,19 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import { Button } from "@/components/ui/button"
 import { RouterLink } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 
 // Menu items.
 const items = [
   {
+    title: "Dashboard",
+    url: "dashboard",
+    icon: AppWindow,
+  },
+  {
     title: "High Availability",
-    url: "",
     icon: Repeat2,
   },
   {
@@ -41,24 +46,62 @@ const items = [
   },
 ];
 
+const ha_items = [
+  {
+    title: "Cluster",
+    url: "ha-cluster",
+    icon: Boxes,
+  },
+  {
+    title: "VM's",
+    url: "",
+    icon: Monitor,
+  },
+]
+
 let authStore = useAuthStore()
 </script>
 
 <template>
   <Sidebar>
-    <SidebarContent>
+     <SidebarContent>
       <SidebarGroup>
         <SidebarGroupLabel class="mb-4">Hypervisor HA & LM Manager</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
+            <Collapsible defaultOpen class="group/collapsible">
               <SidebarMenuItem v-for="item in items" :key="item.title" class="m-1">
-                <SidebarMenuButton asChild>
+                <CollapsibleTrigger v-if="item.title == 'High Availability'" asChild>
+                  <div class="flex">
+                    <SidebarMenuButton asChild>
+                      <RouterLink :to="{ name: item.url }">
+                        <component :is="item.icon" />
+                        <span>{{ item.title }}</span>
+                        <ChevronDown class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180"
+                          asChild />
+                      </RouterLink>
+                    </SidebarMenuButton>
+                  </div>
+                </CollapsibleTrigger>
+                <CollapsibleContent v-if="item.title == 'High Availability'">
+                  <SidebarMenuSub>
+                    <SidebarMenuSubItem v-for="item_ha in ha_items">
+                      <SidebarMenuSubButton>
+                        <RouterLink :to="{ name: item_ha.url }">
+                          <span>{{ item_ha.title }}</span>
+                        </RouterLink>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  </SidebarMenuSub>
+                </CollapsibleContent>
+                <SidebarMenuButton v-if="item.title != 'High Availability'" asChild>
                   <RouterLink :to="{ name: item.url }">
                     <component :is="item.icon" />
                     <span>{{ item.title }}</span>
                   </RouterLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+            </Collapsible>
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
