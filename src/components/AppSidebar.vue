@@ -54,7 +54,7 @@ const ha_items = [
   },
   {
     title: "VM's",
-    url: "",
+    url: "vms",
     icon: Monitor,
   },
 ]
@@ -64,7 +64,7 @@ let authStore = useAuthStore()
 
 <template>
   <Sidebar>
-     <SidebarContent>
+    <SidebarContent>
       <SidebarGroup>
         <SidebarGroupLabel class="mb-4">Hypervisor HA & LM Manager</SidebarGroupLabel>
         <SidebarGroupContent>
@@ -106,7 +106,7 @@ let authStore = useAuthStore()
         </SidebarGroupContent>
       </SidebarGroup>
     </SidebarContent>
-        <div class="mt-auto p-4 border-t">
+    <div class="mt-auto p-4 border-t">
       <div class="flex items-center justify-between space-x-4">
         <div>
           <p class="text-sm text-gray-500">Cluster IP: <span class="font-semibold">{{ authStore.cluster.ip }}</span></p>

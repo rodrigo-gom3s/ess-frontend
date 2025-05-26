@@ -63,7 +63,7 @@ onMounted(() => {
           <h2 class="text-3xl 2xl:align-start 2xl:flex font-light underline text-black mb-6">Node {{ data_item[0].node }}
           </h2>
         </div>
-        <div class="2xl:flex 2xl:justify-center 2xl:gap-20 mx-auto">
+        <div class="2xl:flex 2xl:justify-center 2xl:gap-5">
           <div class="flex flex-col items-center">
             <p>{{ data_item.node }}</p>
             <DonutChart index="name" category="memory_usage" :data="data_item" type="pie"

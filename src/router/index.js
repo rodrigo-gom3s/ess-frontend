@@ -6,6 +6,7 @@ import { useAuthStore } from '@/stores/auth'
 import Register from '@/components/register/Register.vue'
 import Dashboard from '@/components/dashboard/Dashboard.vue'
 import Cluster from '@/components/cluster/Cluster.vue'
+import Vms from '@/components/vms/Vms.vue'
 
 
 let firstLogin = true
@@ -43,6 +44,11 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: Register,
+    },
+    {
+      path: '/vms',
+      name: 'vms',
+      component: Vms,
     }
   ],
 })

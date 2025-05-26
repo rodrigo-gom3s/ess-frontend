@@ -34,6 +34,7 @@ const emit = defineEmits(['closeDialog'])
 const openToast = inject('openToast')
 let updateTable = ref(false)
 let getGroups = inject('getGroups')
+let haveErrors = false
 
 function getClusterNodes() {
   if (props.cluster == null || props.cluster.nodes == null) {
@@ -68,6 +69,9 @@ function getNodes() {
   try {
     NODES_OPTIONS.value = []
     socketStore.getClusterResources().then((response) => {
+      if (response.error) {
+        throw new Error(response.error);
+      }
       response.forEach((item) => {
         if (item.type === 'node') {
           NODES_OPTIONS.value.push({
@@ -85,6 +89,21 @@ function getNodes() {
 }
 
 const insertGroup = async () => {
+  errors.group = ''
+  errors.nodes = ''
+  haveErrors = false
+  if (cluster.group == '') {
+    errors.group = 'Group name is required'
+    haveErrors = true
+  }
+  if (cluster.nodes.length === 0) {
+    errors.nodes = 'At least one node is required'
+    haveErrors = true
+  }
+  if (haveErrors) {
+    return
+  }
+
   try {
     let response = await socketStore.postHAGroup({
       group: cluster.group,
@@ -96,18 +115,16 @@ const insertGroup = async () => {
     }
     getGroups()
     openToast('Success', 'HA Group created successfully', 'success')
+    emit('closeDialog')
   } catch (error) {
-    console.error(error)
     openToast('Error', 'Error creating the HA Group', 'destructive')
+    emit('closeDialog')
   }
 }
 
 
-const submitForm = () => {
-
-
+function submitForm () {
   insertGroup()
-  emit('closeDialog')
 }
 
 onMounted(() => {
@@ -125,8 +142,8 @@ onMounted(() => {
         <input type="text" name="name"
           class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
           v-model="cluster.group" placeholder="HA Group Name" />
-        <div v-if="errors.name">
-          <p class="text-sm text-red-700 mt-4">{{ errors.name }} </p>
+        <div v-if="errors.group">
+          <p class="text-sm text-red-700 mt-4">{{ errors.group }} </p>
         </div>
       </div>
       <div class="mb-8">
