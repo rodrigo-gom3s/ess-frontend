@@ -7,6 +7,8 @@ import Register from '@/components/register/Register.vue'
 import Dashboard from '@/components/dashboard/Dashboard.vue'
 import Cluster from '@/components/cluster/Cluster.vue'
 import Vms from '@/components/vms/Vms.vue'
+import LiveMigration from '@/components/live-migration/LiveMigration.vue'
+import FaultTolerance from '@/components/fault-tolerance/FaultTolerance.vue'
 
 
 let firstLogin = true
@@ -49,6 +51,16 @@ const router = createRouter({
       path: '/vms',
       name: 'vms',
       component: Vms,
+    },
+    {
+      path: '/live-migration',
+      name: 'live-migration',
+      component: LiveMigration,
+    },
+    {
+      path: '/fault-tolerance',
+      name: 'fault-tolerance',
+      component: FaultTolerance,
     }
   ],
 })

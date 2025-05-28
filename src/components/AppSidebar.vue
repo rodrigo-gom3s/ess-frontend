@@ -36,12 +36,12 @@ const items = [
   },
   {
     title: "Live Migration",
-    url: "",
+    url: "live-migration",
     icon: ArrowLeftRightIcon,
   },
   {
     title: "Fault Tolerance",
-    url: "",
+    url: "fault-tolerance",
     icon: ServerCrash,
   },
 ];

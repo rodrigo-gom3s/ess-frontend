@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import { io } from "socket.io-client";
 import { ref, inject, computed } from "vue";
 import { useAuthStore } from "./auth";
-import { get } from "@vueuse/core";
 
 export const useSocketStore = defineStore("socket", () => {
   let socket = io();
@@ -115,14 +114,39 @@ export const useSocketStore = defineStore("socket", () => {
     });
   }
 
-  function postQemuMigration(data) {
-    socket.off("/rest/qemu/migration/post");
-    socket.emit("/rest/qemu/migration/post", {
-      ip: authStore.cluster.ip,
-      data: data,
+  function getFaultTolerance(){
+    return new Promise((resolve) => {
+      socket.off("/rest/faulttolerance/get");
+      socket.emit("/rest/faulttolerance/get", { ip: authStore.cluster.ip });
+      socket.on("/rest/faulttolerance/get", (response) => {
+        resolve(JSON.parse(response));
+      });
     });
-    socket.on("/rest/qemu/migration/post", (response) => {
-      console.log(response);
+  }
+
+  function postFaultTolerance(data) {
+    return new Promise((resolve) => {
+      socket.off("/rest/faulttolerance/post");
+      socket.emit("/rest/faulttolerance/post", {
+        ip: authStore.cluster.ip,
+        data: data,
+      });
+      socket.on("/rest/faulttolerance/post", (response) => {
+        resolve(JSON.parse(response));
+      });
+    });
+  }
+
+  function postQemuMigration(data) {
+    return new Promise((resolve) => {
+      socket.off("/rest/qemu/migration/post");
+      socket.emit("/rest/qemu/migration/post", {
+        ip: authStore.cluster.ip,
+        data: data,
+      });
+      socket.on("/rest/qemu/migration/post", (response) => {
+        resolve(JSON.parse(response));
+      });
     });
   }
 
@@ -141,5 +165,7 @@ export const useSocketStore = defineStore("socket", () => {
     getClusterResources,
     postQemuMigration,
     clusterResources,
+    getFaultTolerance,
+    postFaultTolerance,
   };
 });

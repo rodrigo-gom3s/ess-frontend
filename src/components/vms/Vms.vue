@@ -76,7 +76,7 @@ onMounted(() => {
 
 <template>
   <div class="px-20 bg-gray-100 py-20 h-screen">
-    <h1 class="text-4xl mb-12">VM's</h1>
+    <h1 class="text-4xl mb-12">High Availability > VM's</h1>
     <div class="pl-12 pt-12 pr-10 pb-10 rounded-lg shadow-2xl animate-fade w-full bg-white">
       <div class="flex space-x-3 border-none text-base">
         <div v-if="!updateTable" class="w-full h-10 flex justify-end animate-fade">
