@@ -32,14 +32,13 @@ async function getVMSLM() {
   try {
     vms.value = []
     let response = await socketStore.getClusterResources();
-    console.log(response)
     if (response.error) {
       throw new Error(response.error);
     }
     response.forEach((item) => {
       if (item.type === 'qemu') {
         vms.value.push({
-          sid: item.id.split('/')[1],
+          sid: item.vmid,
           state: item.lock ? item.lock : item.status,
           node: item.node
         });

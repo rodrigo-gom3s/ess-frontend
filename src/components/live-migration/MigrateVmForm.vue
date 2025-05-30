@@ -48,8 +48,8 @@ function getResourcesOptions() {
     response.forEach((item) => {
       if (item.type === 'qemu') {
         VMS_OPTIONS.value.push({
-          value: item.id,
-          text: item.id,
+          value: item.vmid,
+          text: item.name,
           node: item.node
         })
       }
@@ -72,7 +72,7 @@ const insertVM = async () => {
   try {
 
     let response = await socketStore.postQemuMigration({
-      vmid: Number(vm.name.split('/')[1].trim()),
+      vmid: vm.name,
       node: getNodeOfVM(vm.name),
       target: vm.node,
       online: 1
@@ -123,7 +123,7 @@ onMounted(() => {
         <select v-model="vm.name"
           class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
           <option value="" disabled selected>Select a virtual machine</option>
-          <option v-for="vm in VMS_OPTIONS" :value="vm.value">{{ vm.value }}</option>
+          <option v-for="vm in VMS_OPTIONS" :value="vm.value">{{ vm.text }}</option>
         </select>
         <div v-if="errors.name">
           <p class="text-sm text-red-700 mt-4">{{ errors.name }} </p>

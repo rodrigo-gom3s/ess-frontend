@@ -29,7 +29,6 @@ const VMS_OPTIONS = ref([])
 const GROUPS_OPTIONS = ref([])
 const emit = defineEmits(['closeDialog'])
 const openToast = inject('openToast')
-let updateTable = ref(false)
 let getVMS = inject('getVMS')
 
 
@@ -44,7 +43,7 @@ function getVMSOptions() {
       response.forEach((item) => {
         if (item.type === 'qemu') {
           VMS_OPTIONS.value.push({
-            value: item.name,
+            value: item.vmid,
             text: item.name
           })
         }
@@ -97,7 +96,7 @@ const insertVM = async () => {
 
   try {
     let response = await socketStore.postHAResource({
-      sid: "vm:" + vm.name.split(' ')[1],
+      sid: vm.name,
       group: vm.group,
       state: "started",
     })
@@ -134,7 +133,7 @@ onMounted(() => {
         <select v-model="vm.name"
           class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
           <option value="" disabled selected>Select a virtual machine</option>
-          <option v-for="vm in VMS_OPTIONS" :value="vm.value">{{ vm.value }}</option>
+          <option v-for="vm in VMS_OPTIONS" :value="vm.value">{{ vm.text }}</option>
         </select>
         <div v-if="errors.name">
           <p class="text-sm text-red-700 mt-4">{{ errors.name }} </p>
