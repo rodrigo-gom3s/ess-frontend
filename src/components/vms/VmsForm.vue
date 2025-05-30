@@ -107,7 +107,6 @@ const insertVM = async () => {
     emit('closeDialog')
     openToast('Success', 'VM added to HA cluster successfully', 'success')
   } catch (error) {
-    console.error(error)
     openToast('Error', 'Error adding VM to the HA cluster', 'destructive')
   }
 }
