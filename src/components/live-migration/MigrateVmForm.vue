@@ -48,8 +48,8 @@ function getResourcesOptions() {
     response.forEach((item) => {
       if (item.type === 'qemu') {
         VMS_OPTIONS.value.push({
-          value: item.name,
-          text: item.name,
+          value: item.id,
+          text: item.id,
           node: item.node
         })
       }
@@ -72,7 +72,7 @@ const insertVM = async () => {
   try {
 
     let response = await socketStore.postQemuMigration({
-      vmid: Number(vm.name.split(' ')[1].trim()),
+      vmid: Number(vm.name.split('/')[1].trim()),
       node: getNodeOfVM(vm.name),
       target: vm.node,
       online: 1
