@@ -24,7 +24,7 @@ let socketStore = useSocketStore();
 
 async function deleteVM(vm) {
   try {
-    let response = await socketStore.deleteHAResource({sid: vm.trim()});
+    let response = await socketStore.deleteHAResource({ sid: vm.trim() });
     if (response.error != null) {
       throw new Error(response.error);
     }
@@ -50,14 +50,21 @@ async function getVMS() {
     if (response.error) {
       throw new Error(response.error);
     }
+    let response2 = await socketStore.getClusterResources();
+    if (response2.error) {
+      throw new Error(response2.error);
+    }
     response.forEach((item) => {
-      if (item.type === 'vm') {
-        vms.value.push({
-          sid: item.sid.split(':')[1],
-          state: item.state,
-          group: item.group ? item.group : ' --------- ',
-        });
-      }
+      response2.forEach((item2) => {
+        if (item.type === 'vm' && item.sid.split(':')[1] == item2.vmid) {
+          vms.value.push({
+            name: item2.name,
+            sid: item.sid.split(':')[1],
+            state: item.state,
+            group: item.group ? item.group : ' --------- ',
+          });
+        }
+      });
     });
     updateTable.value = false;
   } catch (error) {

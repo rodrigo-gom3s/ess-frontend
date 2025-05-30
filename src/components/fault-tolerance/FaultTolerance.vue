@@ -42,15 +42,22 @@ async function getVMS() {
     if (responseHA.error) {
       throw new Error(responseHA.error);
     }
+    let response2 = await socketStore.getClusterResources();
+    if (response2.error) {
+      throw new Error(response2.error);
+    }
     responseHA.forEach((item) => {
       if (item.type === 'vm') {
         response.forEach((vm) => {
-          if (vm.split('/')[1] === item.sid.split(':')[1]) {
-            vms.value.push({
-              sid: item.sid.split(':')[1],
-              state: item.state,
-            });
-          }
+          response2.forEach((item2) => {
+            if (vm.split('/')[1] === item.sid.split(':')[1] && item2.vmid == item.sid.split(':')[1]) {
+              vms.value.push({
+                sid: item.sid.split(':')[1],
+                state: item.state,
+                name: item2.name,
+              });
+            }
+          });
         });
       }
     });
@@ -68,7 +75,7 @@ async function deleteVM(vm) {
   let vmIndex = vms.value.findIndex((item) => item === vm);
   vms.value.splice(vmIndex, 1);
   try {
-    let response = await socketStore.postFaultTolerance(vms.value.map((item) => "qemu/"+item.sid));
+    let response = await socketStore.postFaultTolerance(vms.value.map((item) => "qemu/" + item.sid));
     if (response.error != null) {
       throw new Error(response.error);
     }

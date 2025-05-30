@@ -1,7 +1,6 @@
 import type { ColumnDef } from '@tanstack/vue-table'
 import Nodes from '@/components/cluster/Nodes.vue'
 import { h } from 'vue'
-import MigrateVM from '@/components/live-migration/MigrateVM.vue'
 import Disabled from './Disabled.vue'
 
 interface VM{
@@ -10,6 +9,10 @@ interface VM{
 }
 
 export const ColumnsVM: ColumnDef<VM>[] = [
+    {
+        accessorKey: 'name',
+        header: 'VM Name'
+    },
     {
         accessorKey: 'sid',
         header: 'VM ID',

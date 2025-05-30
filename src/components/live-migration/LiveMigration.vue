@@ -35,9 +35,11 @@ async function getVMSLM() {
     if (response.error) {
       throw new Error(response.error);
     }
+
     response.forEach((item) => {
       if (item.type === 'qemu') {
         vms.value.push({
+          name: item.name,
           sid: item.vmid,
           state: item.lock ? item.lock : item.status,
           node: item.node

@@ -11,6 +11,10 @@ interface VM {
 
 export const ColumnsVM: ColumnDef<VM>[] = [
   {
+    accessorKey: "name",
+    header: "VM Name",
+  },
+  {
     accessorKey: "sid",
     header: "VM ID",
   },

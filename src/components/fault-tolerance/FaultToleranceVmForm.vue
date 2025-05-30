@@ -32,23 +32,29 @@ let ft_VMS = []
 
 
 
-function getVMSOptions() {
+async function getVMSOptions() {
   try {
     VMS_OPTIONS.value = []
-    socketStore.getHAResources().then((response) => {
-      if (response.error) {
-        throw new Error(response.error);
-      } 
-      response.forEach((item) => {
-        if (item.type === 'vm') {
+    let response = await socketStore.getHAResources();
+    let response2 = await socketStore.getClusterResources();
+    if (response.error) {
+      throw new Error(response.error);
+    }
+    if (response2.error) {
+      throw new Error(response2.error)
+    }
+    response.forEach((item) => {
+      response2.forEach((item2) => {
+        if (item.type === 'vm' && item.sid.split(':')[1] == item2.vmid) {
           VMS_OPTIONS.value.push({
             value: item.sid.replace('vm:', 'VM '),
-            text: item.sid.replace('vm:', 'VM '),
+            text: item2.name,
           })
         }
+
       })
-      isLoadedVMS.value = true
     })
+    isLoadedVMS.value = true
   } catch (error) {
     openToast("Error fetching HA VM's", error?.response?.data?.detail != null ? error.response.data.detail : error.message, 'destructive')
     emit('closeDialog')
@@ -85,10 +91,10 @@ const insertVM = async () => {
 
   try {
 
-    if (ft_VMS.includes("qemu/"+vm.name.split(' ')[1])) {
+    if (ft_VMS.includes("qemu/" + vm.name.split(' ')[1])) {
       throw new Error("VM is already part of the Fault Tolerance service");
     }
-    ft_VMS.push("qemu/"+vm.name.split(' ')[1])
+    ft_VMS.push("qemu/" + vm.name.split(' ')[1])
     let response = await socketStore.postFaultTolerance(ft_VMS);
     if (response.error != null) {
       throw new Error(response.error);
@@ -122,7 +128,8 @@ onMounted(() => {
         <select v-model="vm.name"
           class="w-full mt-2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
           <option value="" disabled selected>Select a virtual machine</option>
-          <option v-show="!ft_VMS.includes(vm.value.split(' ')[1])" v-for="vm in VMS_OPTIONS" :value="vm.value">{{ vm.value }}</option>
+          <option v-show="!ft_VMS.includes(vm.value.split(' ')[1])" v-for="vm in VMS_OPTIONS" :value="vm.value">{{
+            vm.text }}</option>
         </select>
         <div v-if="errors.name">
           <p class="text-sm text-red-700 mt-4">{{ errors.name }} </p>
