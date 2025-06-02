@@ -27,7 +27,7 @@ This application provides a web interface for managing high availability (HA) an
 
 1. **Clone the repository**
    ```sh
-   git clone https://github.com/iuricarras/ess-frontend.git
+   git clone https://github.com/rodrigo-gom3s/ess-frontend
    cd ess-frontend
    ```
 
