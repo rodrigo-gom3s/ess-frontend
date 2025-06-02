@@ -1,4 +1,4 @@
-# Hypervisor Cluster HA & LM Manager
+# Hypervisor Cluster HA & LM Manager - Frontend
 
 **⚠️ Warning:** This code is an academic project and is not intended for production use.
 
